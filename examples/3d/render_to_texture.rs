@@ -36,6 +36,7 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut images: ResMut<Assets<Image>>,
+    asset_server: Res<AssetServer>,
 ) {
     let size = Extent3d {
         width: 512,
@@ -141,6 +142,27 @@ fn setup(
         transform: Transform::from_xyz(0.0, 0.0, 15.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
     });
+
+    commands.spawn(
+        TextBundle::from_section(
+            "hello\nbevy!",
+            TextStyle {
+                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                font_size: 200.0,
+                color: Color::RED,
+            },
+        )
+        .with_text_alignment(TextAlignment::TOP_CENTER)
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            position: UiRect {
+                bottom: Val::Px(50.0),
+                left: Val::Px(50.0),
+                ..default()
+            },
+            ..default()
+        }),
+    );
 }
 
 /// Rotates the inner cube (first pass)
